@@ -1,0 +1,107 @@
+/* ============================================================
+   PARALLAX — House style tokens  (Pine · dark)
+   Single source of truth for colour, type, spacing, charts.
+   Link from every page:  <link rel="stylesheet" href="tokens.css">
+   Use var(--px-*) everywhere — never hard-code a hex or font.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* -- Fonts -- */
+  --px-font-display: 'Newsreader', Georgia, serif;      /* headings, titles, pull quotes */
+  --px-font-body:    'Instrument Sans', system-ui, sans-serif; /* body copy, UI */
+  --px-font-mono:    'IBM Plex Mono', monospace;         /* kickers, dates, read-times — NOT charts */
+
+  /* -- Ground & surfaces (dark) -- */
+  --px-bg:        #0A0E0D;  /* page background */
+  --px-bg-2:      #0F1514;  /* section band / rail */
+  --px-surface:   #131B19;  /* cards, insets */
+  --px-line:      rgba(255,255,255,.10);
+
+  /* -- Text -- */
+  --px-text:      #EAF0EE;
+  --px-text-muted:#A9B8B3;
+  --px-text-dim:  #8496A0;
+
+  /* -- Accent (pine / teal) -- */
+  --px-accent:      #2FA88A;  /* lines, marks, borders, focus */
+  --px-accent-text: #5FD3B4;  /* accent used as small/inline TEXT (passes contrast) */
+
+  /* -- Chart / data-viz ramp — ordered categorical, distinct hues --
+     Series 01 is always the lead reading; 06 the muted one.
+     Every colour is tuned to hold contrast on the dark ground. */
+  --px-c1: #33C9A2;  /* teal   · lead   */
+  --px-c2: #E3A84C;  /* amber          */
+  --px-c3: #5C9BE6;  /* blue           */
+  --px-c4: #E67C6E;  /* coral · alert  */
+  --px-c5: #B294E8;  /* violet         */
+  --px-c6: #8FA6A0;  /* sage-grey · muted */
+
+  /* -- Chart furniture -- */
+  --px-grid:      rgba(255,255,255,.09); /* horizontal gridlines */
+  --px-axis:      rgba(255,255,255,.22); /* baseline / axis */
+  --px-bar-mute:  #26332F;               /* non-highlighted bars */
+  /* Uncertainty band fill: --px-c6 (sage-grey) at 12%. Confidence /
+     credible intervals and any modelled or counterfactual envelope.
+     Deliberately achromatic so the band frames the observed series
+     instead of reading as a second one. Never use coral for this. */
+  --px-band:      rgba(143,166,160,.12);
+
+  /* -- Radius (soft) -- */
+  --px-r-sm: 3px;
+  --px-r:    3px;
+
+  /* -- Spacing / rhythm -- */
+  --px-pad-x: 48px;
+  --px-sec-y: 110px;
+  --px-shadow: 0 24px 60px rgba(0,0,0,.5);
+}
+
+/* -- Base a page opts into -- */
+.px-page { margin:0; background:var(--px-bg); color:var(--px-text); font-family:var(--px-font-body); -webkit-font-smoothing:antialiased; }
+.px-page a { color:var(--px-accent-text); text-decoration:none; }
+.px-page a:hover { color:#8ADFC5; }
+.px-page ::selection { background:rgba(47,168,138,.26); }
+:focus-visible { outline:2px solid var(--px-accent); outline-offset:2px; }
+
+/* -- Type helpers -- */
+.px-kicker { font:500 12px/1 var(--px-font-mono); letter-spacing:.22em; text-transform:uppercase; color:var(--px-accent-text); }
+.px-h1     { font:300 clamp(44px,6vw,80px)/1.02 var(--px-font-display); letter-spacing:-.025em; margin:0; color:var(--px-text); }
+.px-h2     { font:300 clamp(30px,4vw,50px)/1.08 var(--px-font-display); letter-spacing:-.02em; margin:0; color:var(--px-text); }
+.px-h3     { font:400 22px/1.28 var(--px-font-display); letter-spacing:-.01em; margin:0; color:var(--px-text); }
+.px-lead   { font:400 19px/1.65 var(--px-font-body); color:var(--px-text-muted); }
+.px-body   { font:400 17px/1.72 var(--px-font-body); color:var(--px-text-muted); }
+.px-meta   { font:500 13px/1 var(--px-font-body); color:var(--px-text-dim); }
+/* DEPRECATED — mono uppercase "FIG 1 · ..." figure label. Kept only so
+   existing pages keep rendering. New charts must not use it: use
+   .px-chart-title + .px-chart-subtitle below instead. */
+.px-figure-label { font:500 10px/1 var(--px-font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--px-text-dim); }
+
+/* -- Chart furniture helpers --
+   Every chart carries all five: title, subtitle, labelled axes (with
+   units), source, notes. No mono anywhere on a chart. Axis/tick text
+   sits inside the SVG, so apply .px-chart-axis / .px-chart-tick as a
+   class on <text> elements; the rest are <p>s inside the chart frame.
+
+   Hierarchy is deliberate and load-bearing: the TITLE carries the
+   message and is the largest thing on the chart; the subtitle is
+   clearly subordinate; source and notes are footnotes and sit at the
+   bottom of the frame, small enough to read only when sought. */
+.px-chart-title    { font:400 22px/1.28 var(--px-font-display); letter-spacing:-.015em; color:var(--px-text); margin:0 0 5px; }
+.px-chart-subtitle { font:400 13.5px/1.45 var(--px-font-body); color:var(--px-text-muted); margin:0 0 18px; }
+.px-chart-axis     { font:500 12px/1 var(--px-font-body); fill:var(--px-text-muted); color:var(--px-text-muted); }
+.px-chart-tick     { font:400 12px/1 var(--px-font-body); font-variant-numeric:tabular-nums; fill:var(--px-text-dim); color:var(--px-text-dim); }
+/* Footnotes — inside the frame, under the plot. Same size as the axis labels
+   (12px) so the chart's smallest tier reads as one consistent level. */
+.px-chart-source   { font:400 12px/1.5 var(--px-font-body); color:var(--px-text-dim); margin:14px 0 0; }
+.px-chart-note     { font:400 12px/1.5 var(--px-font-body); color:var(--px-text-dim); margin:3px 0 0; }
+
+/* -- Buttons (outlined — never a saturated fill) -- */
+.px-btn        { display:inline-block; font:500 13px/1 var(--px-font-mono); letter-spacing:.14em; text-transform:uppercase; padding:17px 27px; cursor:pointer; text-decoration:none; }
+.px-btn-primary{ color:var(--px-text); border:1px solid var(--px-text); background:transparent; }
+.px-btn-primary:hover { border-color:var(--px-accent); color:var(--px-accent-text); }
+.px-btn-ghost  { color:var(--px-text-muted); background:transparent; border:none; padding-left:0; padding-right:0; }
+
+/* -- Card / inset -- */
+.px-card { background:var(--px-surface); border:1px solid var(--px-line); }
